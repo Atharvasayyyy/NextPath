@@ -3,9 +3,6 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 
-const jobRoutes =
-  require("./routes/jobRoutes");
-
 const careerRoutes =
   require("./routes/careerRoutes");
 
@@ -115,10 +112,6 @@ app.use(
   careerRoutes
 );
 
-app.use(
-  "/api/jobs",
-  jobRoutes
-);
 
 
 // ============================================================
