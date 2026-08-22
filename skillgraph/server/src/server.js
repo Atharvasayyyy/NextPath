@@ -22,11 +22,24 @@ const PORT =
 // CORS
 // ============================================================
 
-const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
+const allowedOrigins = (
+  process.env.FRONTEND_URL ||
+  "http://localhost:5173,https://atharvasayyyy.github.io"
+)
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
 app.use(
   cors({
-    origin: FRONTEND_URL,
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error("Origin is not allowed by CORS"));
+    },
 
     methods: [
       "GET",
