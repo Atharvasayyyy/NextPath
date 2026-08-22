@@ -2,7 +2,14 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: "http://localhost:5000/api",
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
+
+// =========================================================
+// CAREERS
+// =========================================================
 
 export const getCareers = async () => {
   const response = await api.get("/careers");
@@ -10,36 +17,55 @@ export const getCareers = async () => {
   return response.data;
 };
 
-export const getCareerSkills = async (title) => {
+// =========================================================
+// OLD CAREER APIs
+// =========================================================
+
+export const getCareerSkills = async (career) => {
   const response = await api.get(
-    `/careers/${encodeURIComponent(title)}/skills`
+    `/careers/${encodeURIComponent(career)}/skills`
   );
 
   return response.data;
 };
 
-export const getCareerTechnologies = async (title) => {
+export const getCareerTechnologies = async (career) => {
   const response = await api.get(
-    `/careers/${encodeURIComponent(title)}/technologies`
+    `/careers/${encodeURIComponent(career)}/technologies`
   );
 
   return response.data;
 };
 
-export const getCareerProjects = async (title) => {
+export const getCareerProjects = async (career) => {
   const response = await api.get(
-    `/careers/${encodeURIComponent(title)}/projects`
+    `/careers/${encodeURIComponent(career)}/projects`
   );
 
   return response.data;
 };
 
-export const getCareerGraph = async (title) => {
+// =========================================================
+// ROADMAP
+// =========================================================
+
+export const getRoadmap = async (career) => {
   const response = await api.get(
-    `/careers/${encodeURIComponent(title)}/graph`
+    `/roadmaps/${encodeURIComponent(career)}`
   );
 
   return response.data;
 };
+
+
+export const exploreSkill = async (skill) => {
+  const response = await api.get(
+    `/skills/${encodeURIComponent(skill)}/explore`
+  );
+
+  return response.data;
+};
+
 
 export default api;
+

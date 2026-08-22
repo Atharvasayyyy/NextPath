@@ -1,8 +1,11 @@
 const express = require("express");
-const { getSkills } = require("../controllers/skillController");
+
+const {
+  exploreSkill,
+} = require("../controllers/skillController");
 
 const router = express.Router();
 
-router.get("/", getSkills);
+router.get("/:skill/explore", exploreSkill);
 
 module.exports = router;

@@ -2,17 +2,10 @@ import { useEffect, useState } from "react";
 
 import Navbar from "../components/Navbar";
 import CareerSelector from "../components/CareerSelector";
-import SkillCard from "../components/SkillCard";
-import TechnologyCard from "../components/TechnologyCard";
-import ProjectCard from "../components/ProjectCard";
-import GraphExplorer from "../components/GraphExplorer";
-
+import Roadmap from "../components/Roadmap.jsx/Roadmap";
 
 import {
   getCareers,
-  getCareerSkills,
-  getCareerTechnologies,
-  getCareerProjects,
 } from "../services/api";
 
 function Home() {
@@ -21,84 +14,64 @@ function Home() {
   const [selectedCareer, setSelectedCareer] =
     useState("");
 
-  const [skills, setSkills] = useState([]);
-  const [technologies, setTechnologies] = useState([]);
-  const [projects, setProjects] = useState([]);
-
-  const [loading, setLoading] = useState(false);
+  const [loadingCareers, setLoadingCareers] =
+    useState(true);
 
   const [error, setError] = useState("");
 
-  // -----------------------------------------
-  // Load careers
-  // -----------------------------------------
+  // =========================================================
+  // LOAD CAREERS
+  // =========================================================
 
   useEffect(() => {
     const loadCareers = async () => {
       try {
-        const response = await getCareers();
+        setLoadingCareers(true);
+        setError("");
+
+        const response =
+          await getCareers();
+
+        console.log(
+          "Careers response:",
+          response
+        );
+
+        if (!response?.data) {
+          throw new Error(
+            "Career data is missing"
+          );
+        }
 
         setCareers(response.data);
 
-        if (response.data.length > 0) {
+        // Select first career automatically
+        if (
+          response.data.length > 0 &&
+          !selectedCareer
+        ) {
           setSelectedCareer(
             response.data[0].title
           );
         }
+
       } catch (error) {
-        console.error(error);
+        console.error(
+          "Career loading error:",
+          error
+        );
 
         setError(
           "Unable to load careers."
         );
+
+      } finally {
+        setLoadingCareers(false);
       }
     };
 
     loadCareers();
   }, []);
-
-  // -----------------------------------------
-  // Load career data
-  // -----------------------------------------
-
-  useEffect(() => {
-    if (!selectedCareer) {
-      return;
-    }
-
-    const loadCareerData = async () => {
-      try {
-        setLoading(true);
-        setError("");
-
-        const [
-          skillsResponse,
-          technologiesResponse,
-          projectsResponse,
-        ] = await Promise.all([
-          getCareerSkills(selectedCareer),
-          getCareerTechnologies(selectedCareer),
-          getCareerProjects(selectedCareer),
-        ]);
-
-        setSkills(skillsResponse.data);
-        setTechnologies(
-          technologiesResponse.data
-        );
-        setProjects(projectsResponse.data);
-      } catch (error) {
-        console.error(error);
-
-        setError(
-          "Unable to load career information."
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadCareerData();
-  }, [selectedCareer]);
 
   return (
     <>
@@ -106,37 +79,54 @@ function Home() {
 
       <main className="container">
 
-        {/* Hero */}
+        {/* =================================================
+            HERO
+        ================================================= */}
 
         <section className="hero">
+
           <p className="eyebrow">
-            CAREER GRAPH EXPLORER
+            CAREER ROADMAP
           </p>
 
           <h1>
-            Explore your
+            Build your
             <span> career path.</span>
           </h1>
 
           <p className="hero-description">
-            Discover the skills, technologies and
-            projects connected to your career.
+            Explore the skills, technologies,
+            projects and opportunities you need
+            to become job-ready.
           </p>
+
         </section>
 
-        {/* Selector */}
+
+        {/* =================================================
+            CAREER SELECTOR
+        ================================================= */}
 
         <section className="career-section">
 
-          <CareerSelector
-            careers={careers}
-            selectedCareer={selectedCareer}
-            onChange={setSelectedCareer}
-          />
+          {loadingCareers ? (
+            <div className="loading">
+              Loading careers...
+            </div>
+          ) : (
+            <CareerSelector
+              careers={careers}
+              selectedCareer={selectedCareer}
+              onChange={setSelectedCareer}
+            />
+          )}
 
         </section>
 
-        {/* Error */}
+
+        {/* =================================================
+            ERROR
+        ================================================= */}
 
         {error && (
           <div className="error">
@@ -144,138 +134,21 @@ function Home() {
           </div>
         )}
 
-        {/* Loading */}
 
-        {loading ? (
-          <div className="loading">
-            Loading career graph...
-          </div>
-        ) : (
-          <>
-            {/* Skills */}
+        {/* =================================================
+            ROADMAP
+        ================================================= */}
 
+        {!loadingCareers &&
+          selectedCareer && (
             <section className="content-section">
 
-              <div className="section-heading">
-                <div>
-                  <p className="section-label">
-                    REQUIRED
-                  </p>
-
-                  <h2>Skills</h2>
-                </div>
-
-                <span>
-                  {skills.length} skills
-                </span>
-              </div>
-
-              <div className="skills-grid">
-
-                {skills.map((skill) => (
-                  <SkillCard
-                    key={skill.name}
-                    name={skill.name}
-                  />
-                ))}
-
-              </div>
+              <Roadmap
+                career={selectedCareer}
+              />
 
             </section>
-
-            {/* Technologies */}
-
-            <section className="content-section">
-
-              <div className="section-heading">
-                <div>
-                  <p className="section-label">
-                    ECOSYSTEM
-                  </p>
-
-                  <h2>Technologies</h2>
-                </div>
-
-                <span>
-                  {technologies.length} technologies
-                </span>
-              </div>
-
-              <div className="technology-grid">
-
-                {technologies.map(
-                  (technology) => (
-                    <TechnologyCard
-                      key={technology.name}
-                      name={technology.name}
-                      type={technology.type}
-                    />
-                  )
-                )}
-
-              </div>
-
-            </section>
-
-            {/* Projects */}
-
-            <section className="content-section">
-
-              <div className="section-heading">
-                <div>
-                  <p className="section-label">
-                    BUILD
-                  </p>
-
-                  <h2>Recommended Projects</h2>
-                </div>
-
-                <span>
-                  {projects.length} projects
-                </span>
-              </div>
-
-              <div className="projects-grid">
-
-                {projects.map((project) => (
-                  <ProjectCard
-                    key={project.name}
-                    name={project.name}
-                    difficulty={
-                      project.difficulty
-                    }
-                  />
-                ))}
-
-              </div>
-
-            </section>
-
-
-            <section className="content-section">
-
-  <div className="section-heading">
-    <div>
-      <p className="section-label">
-        GRAPH VIEW
-      </p>
-
-      <h2>Career Connections</h2>
-    </div>
-
-    <span>
-      Interactive graph
-    </span>
-  </div>
-
-  <GraphExplorer
-    career={selectedCareer}
-  />
-
-</section>
-
-          </>
-        )}
+          )}
 
       </main>
     </>

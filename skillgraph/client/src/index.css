@@ -1,27 +1,60 @@
+/* =========================================================
+   GLOBAL
+========================================================= */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  font-family: Inter, system-ui, sans-serif;
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
   background: #f7f7f5;
   color: #171717;
 }
 
 button,
-select {
+select,
+input {
   font: inherit;
 }
 
+button {
+  border: none;
+}
+
+a {
+  color: inherit;
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
 .navbar {
   height: 72px;
+
   padding: 0 7%;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   border-bottom: 1px solid #e5e5e5;
+
   background: #ffffff;
 }
 
@@ -44,16 +77,28 @@ select {
   text-decoration: none;
   color: #666;
   font-size: 14px;
+
+  transition: color 0.2s ease;
 }
 
 .nav-links a:hover {
   color: #111;
 }
 
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
 .container {
   width: min(1100px, 90%);
   margin: auto;
 }
+
+
+/* =========================================================
+   HERO
+========================================================= */
 
 .hero {
   padding: 90px 0 50px;
@@ -64,14 +109,19 @@ select {
 .section-label {
   font-size: 12px;
   font-weight: 700;
+
   letter-spacing: 1.5px;
+
   color: #6366f1;
+
   margin-bottom: 12px;
 }
 
 .hero h1 {
   font-size: clamp(48px, 7vw, 82px);
+
   line-height: 0.98;
+
   letter-spacing: -4px;
 }
 
@@ -81,23 +131,37 @@ select {
 
 .hero-description {
   margin-top: 25px;
+
   max-width: 560px;
+
   color: #666;
+
   font-size: 18px;
+
   line-height: 1.6;
 }
 
+
+/* =========================================================
+   CAREER SELECTOR
+========================================================= */
+
 .career-section {
   background: #ffffff;
+
   border: 1px solid #e5e5e5;
+
   border-radius: 18px;
+
   padding: 28px;
+
   margin-bottom: 65px;
 }
 
 .selector-container {
   display: flex;
   flex-direction: column;
+
   gap: 10px;
 }
 
@@ -108,11 +172,17 @@ select {
 
 .selector-container select {
   width: 100%;
+
   padding: 15px 16px;
+
   border-radius: 10px;
+
   border: 1px solid #d5d5d5;
+
   background: white;
+
   outline: none;
+
   cursor: pointer;
 }
 
@@ -120,43 +190,67 @@ select {
   border-color: #6366f1;
 }
 
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
 .content-section {
   margin-bottom: 70px;
 }
 
 .section-heading {
   display: flex;
+
   align-items: flex-end;
+
   justify-content: space-between;
+
   margin-bottom: 25px;
 }
 
 .section-heading h2 {
   font-size: 32px;
+
   letter-spacing: -1px;
 }
 
 .section-heading > span {
   color: #888;
+
   font-size: 14px;
 }
 
+
+/* =========================================================
+   OLD CARDS
+========================================================= */
+
 .skills-grid {
   display: grid;
+
   grid-template-columns:
     repeat(auto-fit, minmax(170px, 1fr));
+
   gap: 14px;
 }
 
 .skill-card {
   padding: 20px;
+
   background: white;
+
   border: 1px solid #e5e5e5;
+
   border-radius: 14px;
+
   display: flex;
+
   align-items: center;
+
   gap: 14px;
-  transition: transform 0.2s;
+
+  transition: transform 0.2s ease;
 }
 
 .skill-card:hover {
@@ -166,25 +260,35 @@ select {
 .card-icon {
   width: 36px;
   height: 36px;
+
   border-radius: 10px;
+
   display: grid;
   place-items: center;
+
   background: #eef2ff;
+
   color: #6366f1;
+
   font-weight: 800;
 }
 
 .technology-grid {
   display: grid;
+
   grid-template-columns:
     repeat(auto-fit, minmax(230px, 1fr));
+
   gap: 15px;
 }
 
 .technology-card {
   padding: 24px;
+
   background: #171717;
+
   color: white;
+
   border-radius: 15px;
 }
 
@@ -194,20 +298,26 @@ select {
 
 .technology-card p {
   color: #aaa;
+
   font-size: 13px;
 }
 
 .projects-grid {
   display: grid;
+
   grid-template-columns:
     repeat(auto-fit, minmax(240px, 1fr));
+
   gap: 15px;
 }
 
 .project-card {
   padding: 25px;
+
   background: white;
+
   border: 1px solid #e5e5e5;
+
   border-radius: 15px;
 }
 
@@ -217,63 +327,593 @@ select {
 
 .difficulty {
   display: inline-block;
+
   padding: 6px 10px;
+
   background: #f1f1f1;
+
   border-radius: 20px;
+
   font-size: 12px;
 }
 
+
+/* =========================================================
+   LOADING / ERROR
+========================================================= */
+
 .loading {
   text-align: center;
+
   padding: 80px;
+
   color: #777;
 }
 
+.error {
+  padding: 18px;
+
+  background: #fff0f0;
+
+  border: 1px solid #ffcaca;
+
+  color: #c00;
+
+  border-radius: 10px;
+
+  margin-bottom: 30px;
+}
+
+
+/* =========================================================
+   ROADMAP PAGE
+========================================================= */
+
+.roadmap-page {
+  width: 100%;
+
+  min-height: 100vh;
+
+  padding: 40px;
+
+  background: #fafafa;
+}
+
+
+/* =========================================================
+   ROADMAP HEADER
+========================================================= */
+
+.roadmap-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 40px;
+
+  margin-bottom: 40px;
+}
+
+.roadmap-label {
+  font-size: 12px;
+
+  font-weight: 700;
+
+  letter-spacing: 1.5px;
+
+  color: #6366f1;
+}
+
+.roadmap-header h1 {
+  margin: 8px 0;
+
+  font-size: 36px;
+
+  letter-spacing: -1.5px;
+}
+
+.roadmap-header p {
+  max-width: 650px;
+
+  color: #666;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.roadmap-progress {
+  width: 220px;
+
+  flex-shrink: 0;
+}
+
+.roadmap-progress span {
+  display: block;
+
+  font-size: 13px;
+
+  color: #666;
+}
+
+.roadmap-progress strong {
+  display: block;
+
+  font-size: 28px;
+
+  margin: 5px 0;
+}
+
+.progress-bar {
+  width: 100%;
+
+  height: 8px;
+
+  background: #e5e7eb;
+
+  border-radius: 10px;
+
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+
+  background: #6366f1;
+
+  border-radius: inherit;
+
+  transition: width 0.4s ease;
+}
+
+
+/* =========================================================
+   ROADMAP LAYOUT
+========================================================= */
+
+.roadmap-layout {
+  width: 100%;
+
+  display: block;
+
+  position: relative;
+}
+
+.roadmap-content {
+  width: 100%;
+
+  max-width: 900px;
+
+  margin: 0 auto;
+}
+
+
+/* =========================================================
+   ROADMAP STAGE
+========================================================= */
+
+.roadmap-stage {
+  position: relative;
+
+  margin-bottom: 20px;
+}
+
+.stage-header {
+  display: flex;
+
+  align-items: center;
+
+  gap: 16px;
+}
+
+.stage-number {
+  width: 48px;
+  height: 48px;
+
+  display: grid;
+
+  place-items: center;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #111827;
+
+  color: white;
+
+  font-size: 16px;
+
+  font-weight: 700;
+}
+
+.stage-info {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.stage-label {
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 1.5px;
+
+  color: #6366f1;
+}
+
+.stage-info h2 {
+  margin: 0;
+
+  font-size: 22px;
+
+  letter-spacing: -0.5px;
+}
+
+.stage-info p {
+  margin: 0;
+
+  color: #777;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   STAGE CONNECTOR
+========================================================= */
+
+.stage-connector {
+  margin-left: 23px;
+
+  height: 35px;
+
+  display: flex;
+
+  justify-content: center;
+}
+
+.connector-line {
+  width: 2px;
+
+  height: 100%;
+
+  background: #d1d5db;
+}
+
+
+/* =========================================================
+   SKILL LIST
+========================================================= */
+
+.skill-list {
+  margin-left: 60px;
+
+  display: flex;
+
+  flex-direction: column;
+}
+
+.skill-wrapper {
+  display: flex;
+
+  flex-direction: column;
+}
+
+
+/* =========================================================
+   SKILL NODE
+========================================================= */
+
+.skill-node {
+  width: 100%;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 16px 18px;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 14px;
+
+  background: #ffffff;
+
+  cursor: pointer;
+
+  text-align: left;
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.skill-node:hover {
+  transform: translateX(5px);
+
+  border-color: #6366f1;
+
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+.skill-node:focus-visible {
+  outline: 3px solid #c7d2fe;
+
+  outline-offset: 2px;
+}
+
+.skill-node-icon {
+  width: 34px;
+  height: 34px;
+
+  display: grid;
+
+  place-items: center;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #eef2ff;
+
+  color: #6366f1;
+
+  font-weight: 700;
+}
+
+.skill-node-info {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 4px;
+
+  flex: 1;
+
+  min-width: 0;
+}
+
+.skill-node-info strong {
+  font-size: 15px;
+
+  color: #171717;
+}
+
+.skill-node-info span {
+  font-size: 12px;
+
+  color: #777;
+}
+
+.skill-tech {
+  padding: 5px 9px;
+
+  border-radius: 6px;
+
+  background: #f3f4f6;
+
+  color: #555;
+
+  font-size: 11px;
+
+  white-space: nowrap;
+}
+
+.skill-arrow {
+  font-size: 20px;
+
+  color: #999;
+
+  flex-shrink: 0;
+}
+
+
+/* =========================================================
+   SKILL CONNECTOR
+========================================================= */
+
+.skill-connector {
+  height: 28px;
+
+  margin-left: 16px;
+
+  display: flex;
+
+  justify-content: center;
+}
+
+
+/* =========================================================
+   NEXT STAGE CONNECTOR
+========================================================= */
+
+.next-stage-connector {
+  height: 65px;
+
+  margin-left: 23px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+}
+
+.next-stage-connector .connector-line {
+  height: 40px;
+}
+
+.connector-arrow {
+  width: 28px;
+  height: 28px;
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: #eef2ff;
+
+  color: #6366f1;
+
+  font-weight: 700;
+
+  font-size: 16px;
+}
+
+
+/* =========================================================
+   OLD SKILL DETAILS
+   Kept for compatibility only
+========================================================= */
+
+.roadmap-details {
+  display: none;
+}
+
+.skill-details {
+  display: none;
+}
+
+.details-close {
+  cursor: pointer;
+}
+
+.details-type {
+  font-size: 11px;
+}
+
+.details-section {
+  margin-top: 25px;
+}
+
+.details-section h3 {
+  font-size: 13px;
+
+  margin-bottom: 7px;
+}
+
+.details-section p {
+  color: #666;
+
+  line-height: 1.6;
+
+  font-size: 14px;
+}
+
+.technology-badge {
+  display: inline-block;
+
+  padding: 8px 12px;
+
+  background: #eef2ff;
+
+  color: #4f46e5;
+
+  border-radius: 8px;
+
+  font-size: 13px;
+}
+
+.complete-button {
+  width: 100%;
+
+  margin-top: 25px;
+
+  padding: 12px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: #111827;
+
+  color: white;
+
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   ROADMAP STATES
+========================================================= */
+
+.roadmap-state {
+  min-height: 400px;
+
+  display: grid;
+
+  place-items: center;
+
+  font-size: 16px;
+
+  color: #777;
+}
+
+.roadmap-state.error {
+  color: #dc2626;
+}
+
+
+/* =========================================================
+   OLD GRAPH SUPPORT
+========================================================= */
+
 .graph-container {
   width: 100%;
+
   height: 600px;
+
   background: #ffffff;
+
   border: 1px solid #e5e5e5;
+
   border-radius: 18px;
+
   overflow: hidden;
 }
 
 .graph-loading {
   width: 100%;
-  height: 400px;
-  display: grid;
-  place-items: center;
-  color: #777;
-}
 
-.graph-container {
-  width: 100%;
-  height: 600px;
-  background: #ffffff;
-  border: 1px solid #e5e5e5;
-  border-radius: 18px;
-  overflow: hidden;
-}
-
-.graph-loading {
-  width: 100%;
   height: 400px;
+
   display: grid;
+
   place-items: center;
+
   color: #777;
 }
 
 .graph-node-content {
   display: flex;
+
   flex-direction: column;
+
   gap: 6px;
+
   text-align: center;
 }
 
 .graph-node-type {
   font-size: 10px;
+
   font-weight: 700;
+
   letter-spacing: 1px;
+
   opacity: 0.6;
 }
 
@@ -282,16 +922,659 @@ select {
 }
 
 
-.error {
-  padding: 18px;
-  background: #fff0f0;
-  border: 1px solid #ffcaca;
-  color: #c00;
-  border-radius: 10px;
-  margin-bottom: 30px;
+/* =========================================================
+   RESOURCES
+========================================================= */
+
+.resource-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+
+  margin-top: 12px;
 }
 
+.resource-card {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 12px;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 12px;
+
+  background: #ffffff;
+
+  text-decoration: none;
+
+  color: inherit;
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.resource-card:hover {
+  transform: translateX(3px);
+
+  border-color: #6366f1;
+
+  box-shadow:
+    0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.resource-icon {
+  width: 36px;
+  height: 36px;
+
+  display: grid;
+
+  place-items: center;
+
+  flex-shrink: 0;
+
+  border-radius: 9px;
+
+  background: #f3f4f6;
+
+  font-size: 17px;
+}
+
+.resource-info {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 2px;
+
+  min-width: 0;
+
+  flex: 1;
+}
+
+.resource-info strong {
+  font-size: 13px;
+
+  color: #171717;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+.resource-info span {
+  font-size: 11px;
+
+  color: #6366f1;
+}
+
+.resource-info small {
+  font-size: 10px;
+
+  color: #888;
+}
+
+.resource-arrow {
+  color: #999;
+
+  font-size: 18px;
+}
+
+.no-resources {
+  padding: 12px;
+
+  border-radius: 10px;
+
+  background: #f9fafb;
+
+  color: #888;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   AI SKILL EXPLORER
+========================================================= */
+
+.skill-explorer {
+  position: fixed;
+
+  top: 0;
+  right: 0;
+
+  width: min(440px, 92vw);
+
+  height: 100vh;
+
+  background: #ffffff;
+
+  border-left: 1px solid #e5e7eb;
+
+  box-shadow:
+    -10px 0 40px rgba(0, 0, 0, 0.08);
+
+  z-index: 1000;
+
+  overflow-y: auto;
+
+  animation: explorer-slide-in 0.25s ease;
+}
+
+@keyframes explorer-slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.skill-explorer-header {
+  position: sticky;
+
+  top: 0;
+
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 24px;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  backdrop-filter: blur(10px);
+
+  border-bottom: 1px solid #eeeeee;
+
+  z-index: 2;
+}
+
+.skill-explorer-label {
+  display: block;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.12em;
+
+  color: #6366f1;
+}
+
+.skill-explorer-header h2 {
+  margin: 6px 0 0;
+
+  font-size: 25px;
+
+  letter-spacing: -0.6px;
+
+  color: #171717;
+}
+
+.skill-explorer-close {
+  width: 34px;
+  height: 34px;
+
+  flex-shrink: 0;
+
+  border: 0;
+
+  border-radius: 9px;
+
+  background: #f3f4f6;
+
+  color: #444;
+
+  font-size: 22px;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.skill-explorer-close:hover {
+  background: #e5e7eb;
+
+  transform: rotate(4deg);
+}
+
+.skill-explorer-content {
+  padding: 24px;
+}
+
+.skill-meta {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding: 12px 14px;
+
+  margin-bottom: 24px;
+
+  border-radius: 10px;
+
+  background: #f7f7ff;
+
+  border: 1px solid #e5e7ff;
+}
+
+.skill-meta span {
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.08em;
+
+  color: #777;
+}
+
+.skill-meta strong {
+  font-size: 12px;
+
+  color: #6366f1;
+}
+
+.explorer-section {
+  margin-bottom: 28px;
+}
+
+.explorer-section-label {
+  display: block;
+
+  margin-bottom: 9px;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.1em;
+
+  color: #888;
+}
+
+.explorer-section p {
+  margin: 0;
+
+  font-size: 13px;
+
+  line-height: 1.7;
+
+  color: #555;
+}
+
+.explorer-list {
+  margin: 0;
+
+  padding-left: 18px;
+}
+
+.explorer-list li {
+  margin-bottom: 8px;
+
+  font-size: 13px;
+
+  line-height: 1.5;
+
+  color: #444;
+}
+
+.explorer-tags {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 7px;
+}
+
+.explorer-tags span {
+  padding: 6px 9px;
+
+  border-radius: 7px;
+
+  background: #f3f4f6;
+
+  border: 1px solid #e5e7eb;
+
+  font-size: 11px;
+
+  color: #555;
+}
+
+.career-use-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+.career-use {
+  display: flex;
+
+  gap: 8px;
+
+  padding: 9px 11px;
+
+  border-radius: 8px;
+
+  background: #f8f8f8;
+
+  font-size: 12px;
+
+  color: #444;
+}
+
+.career-use span {
+  color: #6366f1;
+}
+
+.salary-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 8px;
+}
+
+.salary-grid div {
+  padding: 12px 8px;
+
+  border: 1px solid #eeeeee;
+
+  border-radius: 9px;
+
+  background: #fafafa;
+
+  text-align: center;
+}
+
+.salary-grid small {
+  display: block;
+
+  margin-bottom: 5px;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  color: #999;
+}
+
+.salary-grid strong {
+  font-size: 11px;
+
+  color: #222;
+}
+
+.salary-note {
+  margin-top: 8px !important;
+
+  font-size: 10px !important;
+
+  color: #999 !important;
+}
+
+.resource-heading {
+  display: flex;
+
+  align-items: flex-end;
+
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-bottom: 12px;
+}
+
+.resource-heading h3 {
+  margin: 3px 0 0;
+
+  font-size: 16px;
+
+  color: #222;
+}
+
+.youtube-badge {
+  padding: 5px 8px;
+
+  border-radius: 6px;
+
+  background: #fef2f2;
+
+  color: #dc2626;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+.youtube-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 9px;
+}
+
+.youtube-card {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 8px;
+
+  border: 1px solid #eeeeee;
+
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  text-decoration: none;
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.youtube-card:hover {
+  transform: translateX(3px);
+
+  border-color: #d1d5db;
+
+  box-shadow:
+    0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.youtube-card img {
+  width: 82px;
+  height: 48px;
+
+  object-fit: cover;
+
+  border-radius: 6px;
+
+  background: #f3f4f6;
+
+  flex-shrink: 0;
+}
+
+.youtube-info {
+  min-width: 0;
+
+  flex: 1;
+}
+
+.youtube-info strong {
+  display: block;
+
+  font-size: 11px;
+
+  line-height: 1.35;
+
+  color: #222;
+
+  overflow: hidden;
+
+  display: -webkit-box;
+
+  -webkit-line-clamp: 2;
+
+  -webkit-box-orient: vertical;
+}
+
+.youtube-info span {
+  display: block;
+
+  margin-top: 3px;
+
+  font-size: 9px;
+
+  color: #888;
+}
+
+.youtube-arrow {
+  color: #999;
+
+  font-size: 16px;
+
+  flex-shrink: 0;
+}
+
+.empty-resources {
+  padding: 15px;
+
+  border-radius: 9px;
+
+  background: #f8f8f8;
+
+  font-size: 11px !important;
+
+  text-align: center;
+}
+
+.skill-explorer-loading {
+  padding: 80px 30px;
+
+  text-align: center;
+}
+
+.ai-loader {
+  margin-bottom: 15px;
+
+  font-size: 32px;
+
+  color: #6366f1;
+
+  animation: ai-pulse 1.2s infinite ease-in-out;
+}
+
+@keyframes ai-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+.skill-explorer-loading h3 {
+  margin: 0 0 7px;
+
+  font-size: 16px;
+}
+
+.skill-explorer-loading p {
+  margin: 0;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+
+  color: #888;
+}
+
+.skill-explorer-error {
+  margin: 24px;
+
+  padding: 14px;
+
+  border-radius: 9px;
+
+  background: #fef2f2;
+
+  border: 1px solid #fecaca;
+
+  color: #b91c1c;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   RESPONSIVE — TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .roadmap-page {
+    padding: 30px;
+  }
+
+  .roadmap-content {
+    max-width: none;
+  }
+
+  .roadmap-header {
+    flex-direction: column;
+  }
+
+  .roadmap-progress {
+    width: 100%;
+
+    max-width: 300px;
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+========================================================= */
+
 @media (max-width: 700px) {
+
   .navbar {
     padding: 0 5%;
   }
@@ -300,17 +1583,79 @@ select {
     display: none;
   }
 
+  .container {
+    width: 92%;
+  }
+
   .hero {
     padding-top: 60px;
   }
 
   .hero h1 {
     letter-spacing: -2px;
+
+    font-size: 48px;
   }
 
   .section-heading {
     align-items: flex-start;
+
     gap: 10px;
+
     flex-direction: column;
+  }
+
+  .career-section {
+    padding: 20px;
+
+    margin-bottom: 40px;
+  }
+
+  .roadmap-page {
+    padding: 20px 10px;
+  }
+
+  .roadmap-header h1 {
+    font-size: 30px;
+  }
+
+  .stage-number {
+    width: 42px;
+    height: 42px;
+  }
+
+  .skill-list {
+    margin-left: 30px;
+  }
+
+  .skill-node {
+    padding: 14px;
+  }
+
+  .skill-tech {
+    display: none;
+  }
+
+  .skill-arrow {
+    display: none;
+  }
+
+  .skill-explorer {
+    width: 100vw;
+
+    max-width: none;
+  }
+
+  .skill-explorer-content {
+    padding: 20px;
+  }
+
+  .skill-explorer-header {
+    padding: 20px;
+  }
+
+  .salary-grid {
+    grid-template-columns:
+      repeat(3, 1fr);
   }
 }
