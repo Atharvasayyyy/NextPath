@@ -1,6 +1,9 @@
 node_modules/
 .env
 .env.*
+env
 !.env.example
 dist/
 *.log
+*.pem
+*.key

@@ -2,21 +2,21 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 
-const careerRoutes =
-  require("./routes/careerRoutes");
-
-const roadmapRoutes =
-  require("./routes/roadmapRoutes");
-
-const skillRoutes =
-  require("./routes/skillRoutes");
+const careerRoutes = require("./routes/careerRoutes");
+const roadmapRoutes = require("./routes/roadmapRoutes");
+const skillRoutes = require("./routes/skillRoutes");
 
 const app = express();
 
-const PORT =
-  process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;
 
+// ============================================================
+// PUBLIC / FRONTEND DIRECTORY
+// ============================================================
+
+const publicDir = path.join(__dirname, "../public");
 
 // ============================================================
 // CORS
@@ -24,7 +24,7 @@ const PORT =
 
 const allowedOrigins = (
   process.env.FRONTEND_URL ||
-  "http://localhost:5173,https://atharvasayyyy.github.io"
+  "http://localhost:5051,http://localhost:5173,https://atharvasayyyy.github.io"
 )
   .split(",")
   .map((origin) => origin.trim())
@@ -33,10 +33,18 @@ const allowedOrigins = (
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
+      // Allow requests without an Origin header
+      if (!origin) {
         callback(null, true);
         return;
       }
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      console.error("Blocked CORS origin:", origin);
 
       callback(new Error("Origin is not allowed by CORS"));
     },
@@ -54,10 +62,10 @@ app.use(
       "Content-Type",
       "Authorization",
     ],
+
     credentials: true,
   })
 );
-
 
 // ============================================================
 // BODY PARSER
@@ -65,34 +73,33 @@ app.use(
 
 app.use(express.json());
 
+// ============================================================
+// STATIC FRONTEND
+// ============================================================
+
+// Normal frontend files
+// /assets/... -> /app/public/assets/...
+app.use(express.static(publicDir));
+
+// Your React build currently uses /NextPath/ as its base path.
+// Therefore:
+// /NextPath/assets/... -> /app/public/assets/...
+app.use(
+  "/NextPath",
+  express.static(publicDir)
+);
 
 // ============================================================
-// ROOT
-// ============================================================
-
-app.get("/", (req, res) => {
-  res.json({
-    success: true,
-    message: "SkillGraph API is running",
-  });
-});
-
-
-// ============================================================
-// HEALTH
+// HEALTH CHECK
 // ============================================================
 
 app.get("/health", async (req, res) => {
   try {
-    const driver =
-      require("./config/db");
+    const driver = require("./config/db");
 
-    const session =
-      driver.session();
+    const session = driver.session();
 
-    await session.run(
-      "RETURN 1 AS result"
-    );
+    await session.run("RETURN 1 AS result");
 
     await session.close();
 
@@ -100,13 +107,8 @@ app.get("/health", async (req, res) => {
       success: true,
       database: "connected",
     });
-
   } catch (error) {
-
-    console.error(
-      "Health check failed:",
-      error
-    );
+    console.error("Health check failed:", error);
 
     res.status(503).json({
       success: false,
@@ -115,37 +117,32 @@ app.get("/health", async (req, res) => {
   }
 });
 
-
 // ============================================================
-// CAREER ROUTES
-// ============================================================
-
-app.use(
-  "/api/careers",
-  careerRoutes
-);
-
-
-
-// ============================================================
-// ROADMAP ROUTES
+// API ROUTES
 // ============================================================
 
-app.use(
-  "/api/roadmaps",
-  roadmapRoutes
-);
+app.use("/api/careers", careerRoutes);
 
+app.use("/api/roadmaps", roadmapRoutes);
+
+app.use("/api/skills", skillRoutes);
 
 // ============================================================
-// SKILL / AI EXPLORATION ROUTES
+// FRONTEND ROOT
 // ============================================================
 
-app.use(
-  "/api/skills",
-  skillRoutes
-);
+app.get("/", (req, res) => {
+  res.sendFile(path.join(publicDir, "index.html"));
+});
 
+// ============================================================
+// REACT ROUTING
+// ============================================================
+
+// React Router routes
+app.get("*name", (req, res) => {
+  res.sendFile(path.join(publicDir, "index.html"));
+});
 
 // ============================================================
 // 404
@@ -159,41 +156,28 @@ app.use((req, res) => {
   });
 });
 
-
 // ============================================================
 // ERROR HANDLER
 // ============================================================
 
-app.use(
-  (error, req, res, next) => {
+app.use((error, req, res, next) => {
+  console.error("SERVER ERROR:", error);
 
-    console.error(
-      "SERVER ERROR:",
-      error
-    );
-
-    res.status(500).json({
-      success: false,
-      message: "Internal server error",
-    });
-  }
-);
-
+  res.status(500).json({
+    success: false,
+    message: "Internal server error",
+  });
+});
 
 // ============================================================
 // START SERVER
 // ============================================================
 
-app.listen(
-  PORT,
-  () => {
-    console.log(
-      `Server running on port ${PORT}`
-    );
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 
-    console.log(
-      "Skill exploration API:",
-      `http://localhost:${PORT}/api/skills/:skill/explore`
-    );
-  }
-);
+  console.log(
+    "Skill exploration API:",
+    `http://localhost:${PORT}/api/skills/:skill/explore`
+  );
+});
