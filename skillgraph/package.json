@@ -1,4 +1,14 @@
 {
+  "name": "skillgraph",
+  "version": "1.0.0",
+  "description": "AI-powered skill and career roadmap visualization",
+  "private": true,
+  "scripts": {
+    "dev": "npm run dev --prefix client",
+    "build": "npm run build --prefix client",
+    "server": "npm start --prefix server",
+    "server:dev": "npm run dev --prefix server"
+  },
   "dependencies": {
     "@google/genai": "^2.18.0",
     "axios": "^1.19.0",
