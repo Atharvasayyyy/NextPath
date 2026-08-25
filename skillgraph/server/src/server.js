@@ -30,8 +30,8 @@ const allowedOrigins = [
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // Allow requests without Origin
+    origin: (origin, callback) => {
+      // Allow curl, Postman, server-to-server requests
       if (!origin) {
         return callback(null, true);
       }
@@ -41,6 +41,9 @@ app.use(
       }
 
       console.log("Blocked CORS origin:", origin);
+
+      // Do NOT throw an error here.
+      // Simply reject the CORS request.
       return callback(null, false);
     },
 
@@ -62,8 +65,6 @@ app.use(
   })
 );
 
-
-
 // ============================================================
 // BODY PARSER
 // ============================================================
@@ -78,8 +79,7 @@ app.use(express.json());
 // /assets/... -> /app/public/assets/...
 app.use(express.static(publicDir));
 
-// Your React build currently uses /NextPath/ as its base path.
-// Therefore:
+// React build uses /NextPath/ as base path
 // /NextPath/assets/... -> /app/public/assets/...
 app.use(
   "/NextPath",
@@ -91,19 +91,20 @@ app.use(
 // ============================================================
 
 app.get("/health", async (req, res) => {
+  let session;
+
   try {
     const driver = require("./config/db");
 
-    const session = driver.session();
+    session = driver.session();
 
     await session.run("RETURN 1 AS result");
-
-    await session.close();
 
     res.status(200).json({
       success: true,
       database: "connected",
     });
+
   } catch (error) {
     console.error("Health check failed:", error);
 
@@ -111,6 +112,11 @@ app.get("/health", async (req, res) => {
       success: false,
       database: "unavailable",
     });
+
+  } finally {
+    if (session) {
+      await session.close();
+    }
   }
 });
 
@@ -118,28 +124,46 @@ app.get("/health", async (req, res) => {
 // API ROUTES
 // ============================================================
 
-app.use("/api/careers", careerRoutes);
+app.use(
+  "/api/careers",
+  careerRoutes
+);
 
-app.use("/api/roadmaps", roadmapRoutes);
+app.use(
+  "/api/roadmaps",
+  roadmapRoutes
+);
 
-app.use("/api/skills", skillRoutes);
+app.use(
+  "/api/skills",
+  skillRoutes
+);
 
 // ============================================================
 // FRONTEND ROOT
 // ============================================================
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(publicDir, "index.html"));
+  res.sendFile(
+    path.join(publicDir, "index.html")
+  );
 });
 
 // ============================================================
 // REACT ROUTING
 // ============================================================
 
-// React Router routes (ignore API endpoints so they return JSON instead of the SPA shell)
-app.get(/^(?!\/api).+/, (req, res) => {
-  res.sendFile(path.join(publicDir, "index.html"));
-});
+// React Router routes.
+// Do NOT send index.html for API routes.
+
+app.get(
+  /^(?!\/api).+/,
+  (req, res) => {
+    res.sendFile(
+      path.join(publicDir, "index.html")
+    );
+  }
+);
 
 // ============================================================
 // 404
@@ -158,26 +182,29 @@ app.use((req, res) => {
 // ============================================================
 
 app.use((error, req, res, next) => {
-  console.error("SERVER ERROR:", error);
+  console.error(
+    "SERVER ERROR:",
+    error
+  );
 
   res.status(500).json({
     success: false,
-    message: error.message || "Internal server error",
-    error: error.toString(),
+    message: "Internal server error",
   });
 });
-
-
 
 // ============================================================
 // START SERVER
 // ============================================================
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(
+    `Server running on port ${PORT}`
+  );
 
   console.log(
     "Skill exploration API:",
     `http://localhost:${PORT}/api/skills/:skill/explore`
   );
 });
+
