@@ -165,9 +165,12 @@ app.use((error, req, res, next) => {
 
   res.status(500).json({
     success: false,
-    message: "Internal server error",
+    message: error.message || "Internal server error",
+    error: error.toString(),
   });
 });
+
+
 
 // ============================================================
 // START SERVER
