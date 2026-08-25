@@ -139,8 +139,8 @@ app.get("/", (req, res) => {
 // REACT ROUTING
 // ============================================================
 
-// React Router routes
-app.get("*name", (req, res) => {
+// React Router routes (ignore API endpoints so they return JSON instead of the SPA shell)
+app.get(/^(?!\/api).+/, (req, res) => {
   res.sendFile(path.join(publicDir, "index.html"));
 });
 

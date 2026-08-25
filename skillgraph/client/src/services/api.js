@@ -1,6 +1,12 @@
 import axios from "axios";
 
-const apiBaseURL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const configuredBaseURL = (
+  import.meta.env.VITE_API_URL || "http://localhost:5000/api"
+).replace(/\/+$/, "");
+
+const apiBaseURL = configuredBaseURL.endsWith("/api")
+  ? configuredBaseURL
+  : `${configuredBaseURL}/api`;
 
 const api = axios.create({
   baseURL: apiBaseURL,
@@ -59,7 +65,6 @@ export const getRoadmap = async (career) => {
   return response.data;
 };
 
-
 export const exploreSkill = async (skill) => {
   const response = await api.get(
     `/skills/${encodeURIComponent(skill)}/explore`
@@ -67,7 +72,6 @@ export const exploreSkill = async (skill) => {
 
   return response.data;
 };
-
 
 export default api;
 

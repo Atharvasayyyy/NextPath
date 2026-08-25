@@ -4,24 +4,13 @@ import Navbar from "../components/Navbar";
 import CareerSelector from "../components/CareerSelector";
 import Roadmap from "../components/Roadmap.jsx/Roadmap";
 
-import {
-  getCareers,
-} from "../services/api";
+import { getCareers } from "../services/api";
 
 function Home() {
   const [careers, setCareers] = useState([]);
-
-  const [selectedCareer, setSelectedCareer] =
-    useState("");
-
-  const [loadingCareers, setLoadingCareers] =
-    useState(true);
-
+  const [selectedCareer, setSelectedCareer] = useState("");
+  const [loadingCareers, setLoadingCareers] = useState(true);
   const [error, setError] = useState("");
-
-  // =========================================================
-  // LOAD CAREERS
-  // =========================================================
 
   useEffect(() => {
     const loadCareers = async () => {
@@ -29,42 +18,32 @@ function Home() {
         setLoadingCareers(true);
         setError("");
 
-        const response =
-          await getCareers();
+        const response = await getCareers();
 
-        console.log(
-          "Careers response:",
-          response
-        );
+        console.log("Careers response:", response);
 
-        if (!response?.data) {
-          throw new Error(
-            "Career data is missing"
+        // Make sure the API returned the expected structure
+        if (!response || !Array.isArray(response.data)) {
+          console.error(
+            "Unexpected careers response:",
+            response
           );
+
+          throw new Error("Career data is missing");
         }
 
         setCareers(response.data);
 
-        // Select first career automatically
-        if (
-          response.data.length > 0 &&
-          !selectedCareer
-        ) {
-          setSelectedCareer(
-            response.data[0].title
-          );
+        // Automatically select first career
+        if (response.data.length > 0) {
+          setSelectedCareer(response.data[0].title);
         }
-
       } catch (error) {
-        console.error(
-          "Career loading error:",
-          error
-        );
+        console.error("Career loading error:", error);
 
-        setError(
-          "Unable to load careers."
-        );
-
+        setCareers([]);
+        setSelectedCareer("");
+        setError("Unable to load careers.");
       } finally {
         setLoadingCareers(false);
       }
@@ -79,12 +58,8 @@ function Home() {
 
       <main className="container">
 
-        {/* =================================================
-            HERO
-        ================================================= */}
-
+        {/* HERO */}
         <section className="hero">
-
           <p className="eyebrow">
             CAREER ROADMAP
           </p>
@@ -99,19 +74,17 @@ function Home() {
             projects and opportunities you need
             to become job-ready.
           </p>
-
         </section>
 
-
-        {/* =================================================
-            CAREER SELECTOR
-        ================================================= */}
-
+        {/* CAREER SELECTOR */}
         <section className="career-section">
-
           {loadingCareers ? (
             <div className="loading">
               Loading careers...
+            </div>
+          ) : error ? (
+            <div className="error">
+              {error}
             </div>
           ) : (
             <CareerSelector
@@ -120,33 +93,16 @@ function Home() {
               onChange={setSelectedCareer}
             />
           )}
-
         </section>
 
-
-        {/* =================================================
-            ERROR
-        ================================================= */}
-
-        {error && (
-          <div className="error">
-            {error}
-          </div>
-        )}
-
-
-        {/* =================================================
-            ROADMAP
-        ================================================= */}
-
+        {/* ROADMAP */}
         {!loadingCareers &&
+          !error &&
           selectedCareer && (
             <section className="content-section">
-
               <Roadmap
                 career={selectedCareer}
               />
-
             </section>
           )}
 
