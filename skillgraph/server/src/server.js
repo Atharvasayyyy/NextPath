@@ -22,31 +22,26 @@ const publicDir = path.join(__dirname, "../public");
 // CORS
 // ============================================================
 
-const allowedOrigins = (
-  process.env.FRONTEND_URL ||
-  "http://localhost:5051,http://localhost:5173,https://atharvasayyyy.github.io"
-)
-  .split(",")
-  .map((origin) => origin.trim())
-  .filter(Boolean);
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:5051",
+  "https://next-path-two.vercel.app",
+];
 
 app.use(
   cors({
-    origin: (origin, callback) => {
-      // Allow requests without an Origin header
+    origin: function (origin, callback) {
+      // Allow requests without Origin
       if (!origin) {
-        callback(null, true);
-        return;
+        return callback(null, true);
       }
 
       if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-        return;
+        return callback(null, true);
       }
 
-      console.error("Blocked CORS origin:", origin);
-
-      callback(new Error("Origin is not allowed by CORS"));
+      console.log("Blocked CORS origin:", origin);
+      return callback(null, false);
     },
 
     methods: [
@@ -66,6 +61,8 @@ app.use(
     credentials: true,
   })
 );
+
+
 
 // ============================================================
 // BODY PARSER

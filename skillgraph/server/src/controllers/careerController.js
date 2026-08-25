@@ -133,7 +133,6 @@ async function getCompaniesBySkill(req, res) {
   }
 }
 
-
 async function getCareerGraph(req, res) {
   try {
     const { title } = req.params;
