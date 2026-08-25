@@ -207,4 +207,3 @@ app.listen(PORT, () => {
     `http://localhost:${PORT}/api/skills/:skill/explore`
   );
 });
-
